@@ -5,9 +5,16 @@ import (
 	"fmt"
 )
 
+type RetCode int32
+
 type Error struct {
-	Code int
+	Code RetCode
 	Msg  string
+}
+
+// ErrCode permits any integer defined in
+type ErrCode interface {
+	~uint8 | ~uint16 | ~uint32 | ~uint64 | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~int | ~uintptr
 }
 
 func (e *Error) Error() string {
@@ -17,21 +24,21 @@ func (e *Error) Error() string {
 	return fmt.Sprintf("code:%d msg:%s", e.Code, e.Msg)
 }
 
-func New(code int, msg string) error {
+func New[T ErrCode](code T, msg string) error {
 	return &Error{
-		Code: code,
+		Code: RetCode(code),
 		Msg:  msg,
 	}
 }
 
-func Newf(code int, format string, args ...any) error {
+func Newf[T ErrCode](code T, format string, args ...any) error {
 	return &Error{
-		Code: code,
+		Code: RetCode(code),
 		Msg:  fmt.Sprintf(format, args...),
 	}
 }
 
-func Code(err error) int {
+func Code(err error) RetCode {
 	if err == nil {
 		return 0
 	}
