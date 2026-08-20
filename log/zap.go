@@ -24,7 +24,11 @@ var zapLevel = map[string]zapcore.Level{
 // Fatal 使用 zap 原生终结行为：记录 FatalLevel 后以退出码 1 终止进程（os.Exit）。
 func NewZapLogger(cfg Config) Logger {
 	cores := make([]zapcore.Core, 0, len(cfg))
+	callerSkip := 2
 	for _, c := range cfg {
+		if c.CallerSkip > 0 {
+			callerSkip = c.CallerSkip
+		}
 		cores = append(cores, zapcore.NewCore(
 			resolveZapEncoder(c.Format),
 			resolveZapWriter(c),
@@ -42,8 +46,7 @@ func NewZapLogger(cfg Config) Logger {
 	}
 
 	return &zapLogger{
-		// AddCaller 记录调用位置，AddCallerSkip(1) 跳过自身的转发方法，使 caller 指向用户代码。
-		logger: zap.New(zapcore.NewTee(cores...), zap.AddCaller(), zap.AddCallerSkip(1)),
+		logger: zap.New(zapcore.NewTee(cores...), zap.AddCaller(), zap.AddCallerSkip(callerSkip)),
 	}
 }
 
