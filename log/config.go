@@ -25,8 +25,8 @@ type OutputConfig struct {
 type WriterConfig struct {
 	LogPath    string `yaml:"log_path"`
 	Filename   string `yaml:"filename"`
-	MaxSize    int    `yaml:"max_size_mb"`
+	MaxSize    int    `yaml:"max_size"`
 	MaxBackups int    `yaml:"max_backups"`
-	MaxAge     int    `yaml:"max_age_days"`
+	MaxAge     int    `yaml:"max_age"`
 	Compress   bool   `yaml:"compress"`
 }

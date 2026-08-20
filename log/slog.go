@@ -6,6 +6,7 @@ import (
 	"io"
 	"log/slog"
 	"os"
+	"path/filepath"
 
 	"gopkg.in/natefinch/lumberjack.v2"
 )
@@ -62,7 +63,7 @@ func resolveWriter(c OutputConfig) io.Writer {
 		return os.Stdout
 	case "file":
 		return &lumberjack.Logger{
-			Filename:   c.WriterConfig.Filename,
+			Filename:   filepath.Join(c.WriterConfig.LogPath, c.WriterConfig.Filename),
 			MaxSize:    c.WriterConfig.MaxSize,
 			MaxBackups: c.WriterConfig.MaxBackups,
 			MaxAge:     c.WriterConfig.MaxAge,

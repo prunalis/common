@@ -3,6 +3,7 @@ package log
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -53,7 +54,7 @@ func resolveZapWriter(c OutputConfig) zapcore.WriteSyncer {
 		return zapcore.AddSync(os.Stdout)
 	case "file":
 		return zapcore.AddSync(&lumberjack.Logger{
-			Filename:   c.WriterConfig.Filename,
+			Filename:   filepath.Join(c.WriterConfig.LogPath, c.WriterConfig.Filename),
 			MaxSize:    c.WriterConfig.MaxSize,
 			MaxBackups: c.WriterConfig.MaxBackups,
 			MaxAge:     c.WriterConfig.MaxAge,
