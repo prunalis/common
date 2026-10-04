@@ -1,3 +1,3 @@
-module github.com/boyapple/common/xmux
+module github.com/prunalis/common/xmux
 
 go 1.25.0

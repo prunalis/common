@@ -1,3 +1,3 @@
-module github.com/boyapple/common/cryptor
+module github.com/prunalis/common/cryptor
 
 go 1.25.0

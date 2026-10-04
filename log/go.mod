@@ -1,4 +1,4 @@
-module github.com/boyapple/common/log
+module github.com/prunalis/common/log
 
 go 1.26.0
 
